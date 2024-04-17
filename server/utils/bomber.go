@@ -3,6 +3,7 @@ package utils
 import (
 	"bomberman/config"
 	"bomberman/models"
+	"fmt"
 	"time"
 
 	"github.com/google/uuid"
@@ -10,7 +11,8 @@ import (
 )
 
 func PlaceBomb(request *models.Request, conn *websocket.Conn, team *models.Team, player *models.Player) {
-	if player.LastBombPlaced.After(time.Now().Add(4*time.Second)) && player.Powers != models.PowerUps[2] {
+	if !(time.Since(player.LastBombPlaced) > 4*time.Second) && player.Powers != models.PowerUps[2] {
+		fmt.Println("bomb should not be placed")
 		// log.Println("PlaceBomb 1", player.LastBombPlaced.After(time.Now().Add(4*time.Second)))
 		return
 	}
@@ -29,18 +31,19 @@ func PlaceBomb(request *models.Request, conn *websocket.Conn, team *models.Team,
 		time.Sleep(time.Duration(resp.Bomb.Timer) * time.Second)
 		deadPlayers := team.ExplodeBomb(resp.Bomb)
 		for _, dead := range deadPlayers {
-
-			deadPlayer := team.GetPlayer(uuid.Must(uuid.Parse(dead)))
+			deadPlayer := team.GetPlayer(uuid.MustParse(dead))
 			isDead := deadPlayer.LifeDown()
 			response := new(models.Response)
 			response.FromPlayer(deadPlayer)
 			if isDead {
+				response.FromPlayer(player)
 				response.FromTeam(team, models.PlayerDead)
 			} else {
+				response.FromPlayer(player)
 				response.FromTeam(team, models.PlayerEliminated)
 			}
 			team.Broadcast(response)
-			team.AddPlayer(deadPlayer)
+			// team.AddPlayer(deadPlayer)
 		}
 
 		go func() {
