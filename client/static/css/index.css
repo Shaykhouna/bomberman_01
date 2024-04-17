@@ -1,0 +1,616 @@
+:root {
+    --color1: #222831;
+    --color2: #31363F;
+    --color3: #76ABAE;
+    --color4: #EEEEEE;
+    --color5: #31363f69;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    text-decoration: none;
+    list-style: none;
+}
+
+#app {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background-image: url(https://cdn.discordapp.com/attachments/1208174654309666917/1228150284275159150/starry-sky-stars-black-glitter-1195683-wallhere.com.jpg?ex=662aff15&is=66188a15&hm=a4eb37288e589ae33c1b7dff80a0d1fa1028dbf6b3c683c1c8a910c762078427&);
+    background-size: cover;
+}
+
+.game {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.title {
+    position: absolute;
+    top: 20px;
+    font-size: 40px;
+    font-weight: bold;
+    color: var(--color3);
+    text-align: center;
+
+}
+
+.box {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    padding: 20px;
+    width: 300px;
+    background: var(--color2);
+    border-radius: 5px;
+}
+
+.new-nickname {
+    width: 90%;
+    height: 30px;
+    border-radius: 5px;
+    padding: 0px 5px;
+    border: none;
+    text-align: center;
+}
+
+#join {
+    width: 90px;
+    height: 30px;
+    border-radius: 5px;
+    padding: 0px 5px;
+    border: none;
+    background: var(--color3);
+    color: var(--color1);
+    font-weight: bold;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+#join:hover {
+    background: #76ABAEa1;
+}
+
+.waiting-room {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 300px;
+    gap: 15px;
+    padding: 20px;
+    width: 400px;
+    height: 400px;
+    background: var(--color2);
+    border-radius: 5px;
+    position: relative;
+}
+
+.team {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 400px;
+    color: var(--color3);
+}
+
+.waiting-room .header {
+    position: absolute;
+    top: 70px;
+    display: flex;
+    align-items: center;
+
+    width: 400px;
+    height: 50px;
+    padding: 10px;
+}
+
+.waiting-room .header .player {
+    width: 40px !important;
+    height: 40px !important;
+    border-radius: 5px;
+}
+
+.waiting-room .header .players-header {
+    display: flex;
+    flex-direction: column;
+    padding-left: 20px;
+    justify-content: center;
+    gap: 5px;
+}
+
+.waiting-room .players-header .player-name {
+    font-size: 12px;
+    color: var(--color3);
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.waiting-room .players-header .waiting {
+    display: flex;
+    align-items: center;
+    font-size: 18px;
+    gap: 10px;
+    color: var(--color3);
+}
+
+.waiting-room .list {
+    display: flex;
+    gap: 17px;
+    align-items: center;
+}
+
+
+.container {
+    display: grid;
+    grid-template-columns: 3fr minmax(300px, 1fr);
+    gap: 10px;
+    width: 100vw;
+    height: 100vh;
+    z-index: 10;
+}
+
+
+#game-chat {
+    grid-column: 2;
+}
+
+.chat-box {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    height: 100%;
+
+    border-radius: 5px;
+    padding: 5px 5px 0 5px;
+}
+
+.chat-box .players {
+    width: 100%;
+    height: 225px;
+
+    background: var(--color2);
+    border-radius: 5px;
+}
+
+.players .header,
+.chat .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 5px;
+}
+
+.header .title {
+    font-size: 16px;
+    font-weight: bold;
+    color: var(--color3);
+}
+
+.players-list {
+    display: grid;
+    grid-template-columns: repeat(3, 50px);
+    grid-auto-rows: auto;
+    grid-gap: auto;
+    align-items: center;
+    justify-content: space-around;
+
+    top: 0;
+    left: 0;
+    width: 90%;
+    height: 180px;
+}
+
+.player {
+    display: block;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+
+    width: 50px;
+    height: 50px;
+    padding: 10px;
+    background: var(--color4);
+    border-radius: 5px;
+}
+
+.player img {
+    position: absolute;
+    align-self: center;
+    justify-self: center;
+    width: 95%;
+    height: 95%;
+    left: 1.7px;
+    top: 1.5px;
+    border-radius: 5px;
+}
+
+
+
+
+.player .player-name {
+    position: absolute;
+    justify-self: center;
+
+    bottom: -18px;
+    font-size: 12px;
+    color: var(--color3);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 60px;
+
+}
+
+
+.player .player-status {
+    position: absolute;
+    top: 4.5px;
+    right: 4.5px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--color2);
+}
+
+
+
+.player-status.online {
+    background: #06ff06ce;
+}
+
+.player-status.offline {
+    background: #ff0000d8;
+}
+
+.player .player-life {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    bottom: 4.5px;
+    left: 0;
+    width: 100%;
+    height: 10px;
+}
+
+.player-life i {
+    width: 15px;
+    height: 15px;
+    margin: 0 2px;
+}
+
+.player-life i.lifefull {
+    background: #00ff00;
+}
+
+.player-life i.lifeempty {
+    background: #ff0000;
+}
+
+/*
+
+
+.chat-box .chat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    height: 350px;
+
+    background: var(--color2);
+    border-radius: 5px;
+}
+
+.chat .content {
+    display: flex;
+    flex-direction: column;
+
+    padding: 5px;
+}
+
+.chat .content .messages {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+
+    height: 250px;
+    width: 260px;
+    padding: 5px;
+    overflow-y: auto;
+    border: 1px solid var(--color4);
+    border-radius: 5px;
+}
+
+.messages .message {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+
+    width: 100%;
+    padding: 5px;
+    margin: 5px 0;
+    background: var(--color5);
+    border-radius: 5px;
+}
+
+.chat .footer {
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+
+    width: 100%;
+    height: 50px;
+}
+
+.footer .new-message {
+    width: 60%;
+    height: 60%;
+    padding: 5px;
+    background: var(--color4);
+    border-radius: 5px;
+}
+
+.footer .send {
+    width: 25%;
+    height: 90%;
+    padding: 5px;
+    background: var(--color3);
+    border-radius: 5px;
+    color: var(--color4);
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.chat-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.chat-messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 10px;
+}
+
+.chat-message {
+    margin-bottom: 10px;
+    padding: 5px;
+    border-radius: 5px;
+    background-color: #f0f0f0;
+}
+
+.own-message {
+    margin-bottom: 10px;
+    padding: 5px;
+    border-radius: 5px;
+    background-color: #007bff;
+    color: #fff;
+    align-self: flex-end;
+}
+
+.chat-input-container {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+}
+
+.chat-input {
+    flex: 1;
+    margin-right: 10px;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.send-button {
+    padding: 8px 15px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.game-over {
+    position: absolute;
+    top: 22px;
+    z-index: 100;
+    background: rgba(0, 0, 0, 0.7);
+    width: 331px;
+    height: 100px;
+    left: 10px;
+    align-content: center;
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+    border-radius: 5px;
+}
+
+.game-over h1 {
+    position: absolute;
+    top: 0;
+    align-self: center;
+    color: var(--color3);
+    text-align: center;
+}
+
+.game-over button {
+    background-color: white;
+    color: #0099ffcb;
+    border: none;
+    padding: 6px 13px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 0px 0px;
+    cursor: pointer;
+    border-radius: 5px;
+    width: 73px;
+    align-self: center;
+    top: 64px;
+    position: absolute;
+}
+
+.game-over button:hover {
+    background-color: #0099ffcb;
+    color: white;
+}
+
+.game-over p {
+    position: absolute;
+    top: 43px;
+    align-self: center;
+    color: var(--color3);
+    text-align: center;
+
+}
+
+.loading-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.loading-text {
+    color: #fff;
+    font-size: 24px;
+    text-align: center;
+}
+
+.loading-spinner {
+    border: 4px solid rgba(255, 255, 255, 0.3);
+    border-top: 4px solid #fff;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+@import "compass/css3";
+
+.wrapper {
+    position: relative;
+    margin: 40px auto;
+    background: white;
+}
+
+.wrapper.active .spinner {
+    animation-play-state: running;
+}
+
+.wrapper.active .filler,
+.wrapper.active .mask {
+    animation-play-state: running;
+}
+
+@mixin timer($item, $duration, $size, $color, $border, $hover: running) {
+
+    #{$item},
+    #{$item} * {
+        @include box-sizing(border-box);
+    }
+
+    #{$item} {
+        width: $size;
+        height: $size;
+    }
+
+    #{$item} .pie {
+        width: 50%;
+        height: 100%;
+        transform-origin: 100% 50%;
+        position: absolute;
+        background: $color;
+        border: #{$border};
+    }
+
+    #{$item} .spinner {
+        border-radius: 100% 0 0 100% / 50% 0 0 50%;
+        z-index: 200;
+        border-right: none;
+        animation: rota $duration + s linear infinite;
+    }
+
+    #{$item}:hover .spinner,
+    #{$item}:hover .filler,
+    #{$item}:hover .mask {
+        animation-play-state: $hover;
+    }
+
+    #{$item} .filler {
+        border-radius: 0 100% 100% 0 / 0 50% 50% 0;
+        left: 50%;
+        opacity: 0;
+        z-index: 100;
+        animation: opa $duration + s steps(1, end) infinite reverse;
+        border-left: none;
+    }
+
+    #{$item} .mask {
+        width: 50%;
+        height: 100%;
+        position: absolute;
+        background: inherit;
+        opacity: 1;
+        z-index: 300;
+        animation: opa $duration + s steps(1, end) infinite;
+    }
+
+    @keyframes rota {
+        0% {
+            transform: rotate(0deg);
+        }
+
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+
+    @keyframes opa {
+        0% {
+            opacity: 1;
+        }
+
+        50%,
+        100% {
+            opacity: 0;
+        }
+    }
+}
+
+@include timer('.wrapper', 10s, 250px, #08C, '5px solid rgba(0,0,0,0.5)'); */
