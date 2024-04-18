@@ -31,7 +31,11 @@ func PlaceBomb(request *models.Request, conn *websocket.Conn, team *models.Team,
 		time.Sleep(time.Duration(resp.Bomb.Timer) * time.Second)
 		deadPlayers := team.ExplodeBomb(resp.Bomb)
 		for _, dead := range deadPlayers {
-			deadPlayer := team.GetPlayer(uuid.MustParse(dead))
+			uuidKey, erro := uuid.Parse(dead)
+			if erro != nil {
+				continue
+			}
+			deadPlayer := team.GetPlayer(uuidKey)
 			isDead := deadPlayer.LifeDown()
 			response := new(models.Response)
 			response.FromPlayer(deadPlayer)
@@ -43,7 +47,7 @@ func PlaceBomb(request *models.Request, conn *websocket.Conn, team *models.Team,
 				response.FromTeam(team, models.PlayerEliminated)
 			}
 			team.Broadcast(response)
-			// team.AddPlayer(deadPlayer)
+			team.AddPlayer(deadPlayer)
 		}
 
 		go func() {

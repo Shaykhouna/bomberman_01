@@ -155,7 +155,8 @@ class Game extends router.Component {
 
     players = {}
     elementMAp = {}
-
+    Bombs = {}
+    impacts = {}
 
     constructor(props, stateManager) {
         super(props);
@@ -208,7 +209,19 @@ class Game extends router.Component {
             const new_id = player.position.x * 20 + player.position.y;
             const new_cell = this.elementMAp[new_id];
             new_cell.classList.add(player.avatar);
+            new_cell.classList.remove('flash')
+            new_cell.classList.remove('fire')
+            new_cell.classList.remove('lindworm')
         });
+
+        const bombKeys = Object.keys(this.Bombs);
+         bombKeys.forEach((key) => {
+             const bomb = this.Bombs[key];
+             if (bomb === undefined) return;
+             bomb.classList.add('bomb');
+             this.Bombs[key] = undefined;
+         });
+
     }
 
     // handleChatInputFocus = () => {
@@ -231,8 +244,7 @@ class Game extends router.Component {
     }
 
     activateControls() {
-        const player = this.stateManager.state
-        if (player.life > 0) {
+        if (this.state.life > 0) {
             addListener(window, "keydown", this.handleKeyDown);
         }
     }
@@ -360,7 +372,7 @@ class Game extends router.Component {
                 this.bombExplosion(resp)
                 return;
             case "powerFound":
-                this.removeExplosion(resp)
+                this.powerFound(resp)
                 return;
             case "playerEliminated":
                 this.playerAttacked(resp)
@@ -416,20 +428,30 @@ class Game extends router.Component {
         bombElement.style.animationDuration = `${450}ms`
         bombElement.style.transform = `rotate(${randomDegs}deg)`
 
-        setTimeout(() => {
-            // bombElement.classList.remove('explosion');
-            bombElement.className = 'cell';
-            bombElement.style.transition = initialTransition;
-            bombElement.style.animationDuration = initialAnimationDuration;
-            bombElement.style.transform = initialTransform;
+        let start;
+        let frameId;
+        function step(timestamp) {
+            if (start === undefined)
+                start = timestamp;
+            const elapsed = timestamp - start;
 
-        }, 450);
-        // requestAnimationFrame(() => {
-        //     // bombElement.className = 'cell';
-        //     // bombElement.style.transition = initialTransition;
-        //     // bombElement.style.animationDuration = initialAnimationDuration;
-        //     // bombElement.style.transform = initialTransform;
-        // });
+            if (elapsed < 450) { // 450ms is the duration of your timeout
+                frameId = requestAnimationFrame(step);
+            } else {
+                // bombElement.classList.remove('explosion');
+                bombElement.className = 'cell';
+
+                bombElement.style.transition = initialTransition;
+                bombElement.style.animationDuration = initialAnimationDuration;
+                bombElement.style.transform = initialTransform;
+
+                // Cancel the animation frame
+                cancelAnimationFrame(frameId);
+            }
+        }
+
+        frameId = requestAnimationFrame(step);
+
     }
 
     playerAttacked(data) {
@@ -554,7 +576,7 @@ class Game extends router.Component {
             const notificationToPlayer = createElement('div', { class: 'message message_other' }, [
                 createElement('div', { class: 'chat_message' }, "Game Over For You, you've been killed"),
                 createElement('div', { class: 'game-over' }, [
-                    createElement('button', { class: 'replay', onClick: () => { this.removeState; this.redirectTo('/') } }, 'Replay'),
+                    createElement('button', { class: 'replay', onClick: () => { this.removeState; this.router.navigate('/') } }, 'Replay'),
                 ]),
                 createElement('div', { class: 'message_name' }, 'Game Server')
             ]);
